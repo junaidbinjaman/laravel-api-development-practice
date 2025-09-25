@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\V1;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -13,6 +14,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property string $status
  * @property string $created_at
  * @property string $updated_at
+ * @property User $user
  */
 class TicketResource extends JsonResource
 {
@@ -44,12 +46,13 @@ class TicketResource extends JsonResource
                         'id' => $this->user_id
                     ],
                     'links' => [
-                        ['self' => 'todo']
+                        'self' => route('users.show', ['user' => $this->user_id])
                     ]
                 ]
             ],
+            'includes' => new UserResource($this->whenLoaded('author ')),
             'links' => [
-                ['self' => route('tickets.show', ['ticket' => $this->id] )]
+                'self' => route('tickets.show', ['ticket' => $this->id])
             ]
         ];
     }

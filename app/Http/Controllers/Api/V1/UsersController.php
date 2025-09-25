@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreUserRequest;
-use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\Api\V1\StoreUserRequest;
+use App\Http\Requests\Api\V1\UpdateUserRequest;
+use App\Http\Resources\V1\UserResource;
 use App\Models\User;
 
-class UsersController extends Controller
+class UsersController extends ApiController
 {
     /**
      * Display a listing of the resource.
@@ -15,14 +16,11 @@ class UsersController extends Controller
     public function index()
     {
         //
-    }
+        if ($this->include('ticket')) {
+            return UserResource::collection(User::with('tickets')->query()->paginate());
+        }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return UserResource::collection(User::query()->paginate());
     }
 
     /**
@@ -39,14 +37,11 @@ class UsersController extends Controller
     public function show(User $user)
     {
         //
-    }
+        if ($this->include('ticket')) {
+            return new UserResource($user->load('tickets'));
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(User $user)
-    {
-        //
+        return new UserResource($user);
     }
 
     /**
