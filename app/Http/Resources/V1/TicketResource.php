@@ -5,6 +5,15 @@ namespace App\Http\Resources\V1;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @property int $id
+ * @property string $title
+ * @property string $slug
+ * @property string $description
+ * @property string $status
+ * @property string $created_at
+ * @property string $updated_at
+ */
 class TicketResource extends JsonResource
 {
     // public static $wrap = 'ticket';
